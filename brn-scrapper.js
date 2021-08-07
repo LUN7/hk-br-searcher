@@ -1,9 +1,6 @@
 const puppeteer = require("puppeteer");
 const { waitForPopUp, parse2DArrToObject } = require("./util");
 
-const CHROME_EXECUTE_PATH =
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-
 const ENTRY_PAGE =
   "https://www.gov.hk/en/residents/taxes/etax/services/brn_enquiry.htm";
 
@@ -50,8 +47,7 @@ const PAGE_INDEX = {
 const DEFAULT_OPTIONS = {
   puppeteer: {
     headless: true,
-    executablePath: CHROME_EXECUTE_PATH,
-    args: ["--disable-gpu"],
+    args: ["--disable-gpu", "--no-sandbox"],
   },
 };
 

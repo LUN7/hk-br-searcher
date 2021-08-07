@@ -2,4 +2,6 @@ version: "3.9" # optional since v1.27.0
 services:
   scrapper:
     platform: linux/amd64
-    build: .
+    build:
+      context: .
+      target: production
