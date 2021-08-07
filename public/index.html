@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"
+  ></script>
+  <head>
+    <title>BR Inspector</title>
+    <style>
+      body {
+        background: whitesmoke;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="h-100">
+      <div class="my-4 mx-5">
+        <h2
+          class="
+            py-2
+            mb-3
+            text-center
+            bg-white
+            text-primary
+            border border-primary
+            rounded
+          "
+        >
+          Welcom to BR Inspector
+        </h2>
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Business Registration Number"
+            aria-label="brn"
+            id="brnInput"
+          />
+          <span id="brnSubmitButtonWrapper">
+            <button
+              class="btn btn-primary"
+              type="button"
+              id="brnSubmitButton"
+              onclick="getBrnDetail()"
+            >
+              Search
+            </button>
+          </span>
+        </div>
+        <div class="mb-3">
+          <label for="brnDetailResult" class="form-label"
+            >Business Registration Detail</label
+          >
+          <textarea
+            class="form-control"
+            id="brnDetailResult"
+            rows="10"
+            disabled
+          >
+          </textarea>
+        </div>
+      </div>
+    </div>
+    <script>
+      const input = document.getElementById("brnInput");
+      input.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          getBrnDetail();
+        }
+      });
+
+      function setLoading(isLoading) {
+        if (isLoading) {
+          document.getElementById("brnInput").disabled = true;
+          document.getElementById("brnSubmitButtonWrapper").innerHTML =
+            '<button id="brnSubmitButton" class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only"> Searching...</span></button>';
+          return;
+        }
+        document.getElementById("brnInput").disabled = false;
+        document.getElementById("brnSubmitButtonWrapper").innerHTML = `<button
+                class="btn btn-primary"
+                type="button"
+                id="brnSubmitButton"
+                onclick="getBrnDetail()"
+              >
+                Search
+              </button>`;
+        return;
+      }
+      function getBrnDetail() {
+        const input = document.getElementById("brnInput");
+        const brn = input.value;
+        if (!brn) {
+          alert("Please fill in Business Registration Number ");
+        }
+        setLoading(true);
+        fetch(`/${brn}`)
+          .then((res) => res.json())
+          .then((body) => {
+            const textArea = document.getElementById("brnDetailResult");
+            textArea.value = JSON.stringify(body, null, 2);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.error(err.message);
+            setLoading(false);
+          });
+      }
+    </script>
+  </body>
+</html>
