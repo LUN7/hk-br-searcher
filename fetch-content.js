@@ -6,7 +6,7 @@ const CHROME_EXECUTE_PATH =
 const ENTRY_PAGE =
   "https://www.gov.hk/en/residents/taxes/etax/services/brn_enquiry.htm";
 
-const PAGE_SELECTORS = {
+const QUERY_SELECTORS = {
   ENTRY_PAGE: {
     ENQUIRY_BUTTON: "[data-eserviceid=IRD-0005-S]",
   },
@@ -61,7 +61,7 @@ async function fetch() {
     console.log("go to entry page");
     await page.goto(ENTRY_PAGE);
     const enquiryButton = await page.waitForSelector(
-      PAGE_SELECTORS.ENTRY_PAGE.ENQUIRY_BUTTON,
+      QUERY_SELECTORS.ENTRY_PAGE.ENQUIRY_BUTTON,
       { timeout: 10 * 1000 }
     );
     console.log("got enquiryButton");
@@ -74,13 +74,13 @@ async function fetch() {
     // brief
     console.log("brief page");
     const frame = await popUpPage.waitForSelector(
-      PAGE_SELECTORS.BRIEF_PAGE.FRAME_DOCUMENT,
+      QUERY_SELECTORS.BRIEF_PAGE.FRAME_DOCUMENT,
       { timeout: 5 * 1000 }
     );
     const frameContent = await frame.contentFrame();
 
     const beginButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.BRIEF_PAGE.BEGIN_BUTTON,
+      QUERY_SELECTORS.BRIEF_PAGE.BEGIN_BUTTON,
       { visible: true, timeout: 5 * 1000 }
     );
     await page.waitForTimeout(500);
@@ -88,35 +88,35 @@ async function fetch() {
     await beginButton.click();
 
     const readAndProcessButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_1.READ_AND_PROCEED_BUTTON
+      QUERY_SELECTORS.STEP_1.READ_AND_PROCEED_BUTTON
     );
     await page.waitForTimeout(500);
     readAndProcessButton.click();
 
     const applyRadioButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_2.APPLY_FOR_SUPPLY_RADIO_BUTTON
+      QUERY_SELECTORS.STEP_2.APPLY_FOR_SUPPLY_RADIO_BUTTON
     );
     await page.waitForTimeout(500);
     applyRadioButton.click();
 
     const step2ContinueButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_2.CONTINUE_BUTTON
+      QUERY_SELECTORS.STEP_2.CONTINUE_BUTTON
     );
     await page.waitForTimeout(500);
     step2ContinueButton.click();
     await frameContent.waitForNavigation();
 
     const businessRegistrationNumberInput = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_3.BRN_INPUT
+      QUERY_SELECTORS.STEP_3.BRN_INPUT
     );
     const branceNumberInput = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_3.BN_INPUT
+      QUERY_SELECTORS.STEP_3.BN_INPUT
     );
     const extractElectronicInfoRadioButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_3.EXTRACT_ELECTRONIC_INFO_RADIO_BUTTON
+      QUERY_SELECTORS.STEP_3.EXTRACT_ELECTRONIC_INFO_RADIO_BUTTON
     );
     const continueButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_3.CONTINUE_BUTTON
+      QUERY_SELECTORS.STEP_3.CONTINUE_BUTTON
     );
 
     await page.waitForTimeout(500);
@@ -127,10 +127,10 @@ async function fetch() {
 
     await frameContent.waitForNavigation();
     const dataTable = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_4.TARGET_DATA_TBODY
+      QUERY_SELECTORS.STEP_4.TARGET_DATA_TBODY
     );
     const cancelButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_4.CANCEL_BUTTON
+      QUERY_SELECTORS.STEP_4.CANCEL_BUTTON
     );
     const data = await dataTable.$$eval("tr", (tableRows) =>
       tableRows.map((row) =>
@@ -141,7 +141,7 @@ async function fetch() {
 
     await frameContent.waitForNavigation();
     const submitAnotherApplicationButton = await frameContent.waitForSelector(
-      PAGE_SELECTORS.STEP_4.SUBMIT_ANOTHER_APPLICATION_BUTTON
+      QUERY_SELECTORS.STEP_4.SUBMIT_ANOTHER_APPLICATION_BUTTON
     );
     await page.waitForTimeout(500);
     await submitAnotherApplicationButton.click();
