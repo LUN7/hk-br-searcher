@@ -1,4 +1,6 @@
 const BrnScrapper = require("./brn-scrapper");
+const { parse2DArrToObject } = require("./util");
+
 jest.setTimeout(20 * 1000);
 const TEST_CASES = [
   [
@@ -12,6 +14,16 @@ const TEST_CASES = [
       "Company Name (English)": "TRINITY DUMPLING COMPANY LIMITED",
       "Document Fee Payable": "HK$ 27.00",
       "Total Amount payable": "HK$ 27.00",
+    },
+  ],
+  [
+    [
+      ["a", "1"],
+      ["b", "2"],
+    ],
+    {
+      a: "1",
+      b: "2",
     },
   ],
 ];
@@ -39,5 +51,13 @@ describe("BrnScrapper basic test", () => {
     it("should resolve ", (done) => {
       brnScrapper.destroy().then(done);
     });
+  });
+});
+
+describe("parse2DArrToObject", () => {
+  const INPUT = TEST_CASES[1][0];
+  const EXPECTED_OUTPUT = TEST_CASES[1][1];
+  it(`should return ${JSON.stringify(EXPECTED_OUTPUT, null, 2)}`, () => {
+    expect(parse2DArrToObject(INPUT)).toEqual(EXPECTED_OUTPUT);
   });
 });
