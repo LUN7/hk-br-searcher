@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.17.1",
     "jest": "^27.0.6",
+    "promise-queue": "^2.2.5",
     "puppeteer": "^10.2.0"
   },
   "devDependencies": {
@@ -13,6 +15,8 @@
   "scripts": {
     "start:prod": "node index.js",
     "start:dev": "nodemon index.js ",
-    "start:debug": "nodemon --inspect index.js "
+    "start:debug": "nodemon --inspect index.js ",
+    "test": "jest --runInBand",
+    "test:watch": "jest --runInBand --watch"
   }
 }
