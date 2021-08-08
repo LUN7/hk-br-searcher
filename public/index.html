@@ -101,6 +101,9 @@
         if (!brn) {
           alert("Please fill in Business Registration Number ");
         }
+        if (!brn.lenth != 8) {
+          alert("Business Registration Number should have 8 char");
+        }
         setLoading(true);
         fetch(`/${brn}`)
           .then((res) => res.json())
