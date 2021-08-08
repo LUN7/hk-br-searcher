@@ -47,7 +47,9 @@ const PAGE_INDEX = {
 const DEFAULT_OPTIONS = {
   puppeteer: {
     headless: true,
-    executablePath: "/usr/bin/google-chrome-stable",
+    // executablePath: "/usr/bin/google-chrome-stable",
+    executablePath:
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     args: ["--disable-gpu", "--no-sandbox"],
   },
 };
@@ -248,7 +250,8 @@ exports = class BrDetailScrapper {
     await this._goToStep4Page();
     const result = await this._extractBrnDetailFromStep4Page();
     await this._goBackToStep3Page();
-    return Object.keys(result).length === 2
+
+    return Object.keys(result).length !== 7
       ? { Error: "Record not found" }
       : result;
   }
