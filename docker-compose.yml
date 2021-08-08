@@ -6,7 +6,7 @@ services:
       target: builder
     deploy:
       restart_policy:
-        condition: anyon-failure
+        condition: any
         delay: 10s
         max_attempts: 6
         window: 120s
