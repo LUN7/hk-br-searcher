@@ -4,8 +4,9 @@ services:
     build:
       context: .
       target: builder
-    restart_policy:
-      condition: anyon-failure
-      delay: 10s
-      max_attempts: 6
-      window: 120s
+    deploy:
+      restart_policy:
+        condition: anyon-failure
+        delay: 10s
+        max_attempts: 6
+        window: 120s
