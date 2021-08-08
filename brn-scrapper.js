@@ -4,6 +4,17 @@ const { waitForPopUp, parse2DArrToObject } = require("./util");
 const ENTRY_PAGE =
   "https://www.gov.hk/en/residents/taxes/etax/services/brn_enquiry.htm";
 
+const IS_MAC_OS = process.platform === "darwin";
+const MACOS_CHROME_EXE_PATH =
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+
+const IS_LINUX = process.platform === "linux";
+const LINUX_CHROME_EXE_PATH = "/usr/bin/google-chrome-stable";
+const CHROME_PATH =
+  (IS_MAC_OS && MACOS_CHROME_EXE_PATH) ||
+  (IS_LINUX && LINUX_CHROME_EXE_PATH) ||
+  undefined;
+
 const QUERY_SELECTORS = {
   ENTRY_PAGE: {
     ENQUIRY_BUTTON: "[data-eserviceid=IRD-0005-S]",
@@ -47,9 +58,7 @@ const PAGE_INDEX = {
 const DEFAULT_OPTIONS = {
   puppeteer: {
     headless: true,
-    // executablePath: "/usr/bin/google-chrome-stable",
-    executablePath:
-      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    executablePath: CHROME_PATH,
     args: ["--disable-gpu", "--no-sandbox"],
   },
 };
