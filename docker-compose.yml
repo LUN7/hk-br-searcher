@@ -8,5 +8,4 @@ services:
       restart_policy:
         condition: any
         delay: 10s
-        max_attempts: 6
         window: 120s
