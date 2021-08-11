@@ -5,7 +5,8 @@ const express = require("express");
 const app = express();
 
 const MAX_CONCURRENCY = 1;
-const requestQueue = new PromiseQueue(MAX_CONCURRENCY);
+const MAX_QUEUE = 2;
+const requestQueue = new PromiseQueue(MAX_CONCURRENCY, MAX_QUEUE);
 
 const brDetialScrapper = new BrDetailScrapper();
 
@@ -17,8 +18,24 @@ brDetialScrapper.initialize().then(() => {
 
 app.use("/app", express.static("public"));
 app.get("/:brn", async (req, res, next) => {
-  const brnDetail = await requestQueue.add(() =>
-    brDetialScrapper.getBrDetail(req.params.brn)
-  );
-  res.send(brnDetail);
+  try {
+    const queueLength = requestQueue.getQueueLength();
+    if (queueLength > 1) {
+      return res.send({
+        status: "busy",
+      });
+    }
+    const brnDetail = await requestQueue.add(() =>
+      brDetialScrapper.getBrDetail(req.params.brn)
+    );
+    res.send({
+      status: "success",
+      data: brnDetail,
+    });
+  } catch (err) {
+    res.send({
+      status: "fail",
+      error: err.message,
+    });
+  }
 });
